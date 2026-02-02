@@ -1,0 +1,45 @@
+{
+  "name": "@musajonov/cursor-rules",
+  "version": "1.0.0",
+  "description": "A comprehensive collection of Cursor AI rules for Vue 3 + TypeScript frontend projects",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"No tests yet\" && exit 0"
+  },
+  "keywords": [
+    "cursor",
+    "cursor-rules",
+    "vue3",
+    "typescript",
+    "frontend",
+    "rules",
+    "ai",
+    "code-standards",
+    "best-practices",
+    "admin-panel",
+    "pinia",
+    "vue-router",
+    "tailwind"
+  ],
+  "author": "Muxammad Umar Musajonov <musajonov.me@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/muxammadumar/cursor-rules.git"
+  },
+  "bugs": {
+    "url": "https://github.com/muxammadumar/cursor-rules/issues"
+  },
+  "homepage": "https://github.com/muxammadumar/cursor-rules#readme",
+  "files": [
+    "project-rules",
+    "user-rules",
+    "README.md",
+    "RULES-SUMMARY.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

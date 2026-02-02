@@ -1,0 +1,30 @@
+# Development files
+.git
+.gitignore
+.DS_Store
+node_modules
+
+# Editor
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Test coverage
+coverage
+
+# Build artifacts
+dist
+build
+
+# Temporary files
+tmp
+temp

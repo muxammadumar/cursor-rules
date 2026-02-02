@@ -2,6 +2,24 @@
 
 A comprehensive collection of reusable Cursor AI rules for Vue 3 + TypeScript frontend projects.
 
+[![npm version](https://img.shields.io/npm/v/@musajonov/cursor-rules.svg)](https://www.npmjs.com/package/@musajonov/cursor-rules)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+## Installation
+
+```bash
+# Using npm
+npm install @musajonov/cursor-rules
+
+# Using yarn
+yarn add @musajonov/cursor-rules
+
+# Using pnpm
+pnpm add @musajonov/cursor-rules
+```
+
+After installation, the rules will be in `node_modules/@musajonov/cursor-rules/`
+
 ## What's Inside
 
 This repository contains two types of rules:
@@ -96,29 +114,40 @@ See [`user-rules/README.md`](user-rules/README.md) for more details.
 
 ### Quick Start
 
-1. **Clone this repository**:
+1. **Install the package**:
    ```bash
-   git clone <your-repo-url> cursor-rules
-   cd cursor-rules
+   npm install @musajonov/cursor-rules
    ```
 
 2. **Set up user rules** (one time):
    ```bash
-   # Copy to Cursor user settings or
-   cp user-rules/vue3-typescript.md ~/.cursorrules
+   # Copy to your home directory
+   cp node_modules/@musajonov/cursor-rules/user-rules/vue3-typescript.md ~/.cursorrules
+   
+   # Or add to Cursor Settings > Rules for AI
    ```
 
 3. **Copy project rules** to your project:
    ```bash
    # Copy all rules
-   cp -r project-rules your-project/.cursor/rules/
+   cp -r node_modules/@musajonov/cursor-rules/project-rules .cursor/rules/
    
    # Or copy specific rules
-   cp -r project-rules/localization your-project/.cursor/rules/
-   cp -r project-rules/types your-project/.cursor/rules/
+   cp -r node_modules/@musajonov/cursor-rules/project-rules/localization .cursor/rules/
+   cp -r node_modules/@musajonov/cursor-rules/project-rules/types .cursor/rules/
    ```
 
 4. **Customize** the rules to match your project's needs
+
+### Alternative: Clone from GitHub
+
+If you prefer not to use npm:
+
+```bash
+git clone https://github.com/muxammadumar/cursor-rules.git
+cd cursor-rules
+cp -r project-rules your-project/.cursor/rules/
+```
 
 ### Customization
 
