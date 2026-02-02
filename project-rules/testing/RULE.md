@@ -1,60 +1,100 @@
 ---
-description: Testing patterns for unit, integration, and e2e tests
-globs: ["**/*.spec.ts", "**/*.test.ts", "**/tests/**/*", "**/__tests__/**/*"]
+description: Testing guidelines for admin panel
+globs: ["**/*.spec.ts", "**/*.test.ts", "**/tests/**/*"]
 ---
 
 # Testing Rules
 
-## Test Organization
+> **Note**: Testing rules added as template. Adjust based on your testing strategy.
 
-<!-- Add rules for:
-- Test file location (co-located vs tests/ folder)
-- Test file naming conventions
-- Test suite structure
-- Test grouping with describe blocks
--->
+## Test Organization  
 
-## Unit Testing
+**File naming**:
+- Unit tests: `*.spec.ts` or `*.test.ts`
+- E2E tests: `*.e2e.ts` or in `tests/e2e/`
 
-<!-- Add rules for:
-- Component testing with Vue Test Utils
-- Composable testing
-- Utility function testing
-- Mock patterns
--->
+**Location**:
+- Co-locate unit tests with source files
+- E2E tests in dedicated `tests/` folder
 
-## Integration Testing
+## Unit Testing  
 
-<!-- Add rules for:
-- Testing component interactions
-- Testing with real stores
-- API mocking strategies
-- Router testing
--->
+**Test composables**:
 
-## E2E Testing
+```typescript
+import { describe, it, expect } from 'vitest'
+import { useOrders } from '@/composables/useOrders'
 
-<!-- Add rules for:
-- E2E test organization
-- Playwright/Cypress patterns
-- Test data management
-- Page object patterns
--->
+describe('useOrders', () => {
+  it('fetches orders on mount', async () => {
+    const { orders, loading, fetchOrders } = useOrders()
+    
+    expect(loading.value).toBe(false)
+    await fetchOrders()
+    expect(orders.value.length).toBeGreaterThan(0)
+  })
+})
+```
 
-## Test Coverage
+**Test components**:
 
-<!-- Add rules for:
-- Coverage thresholds
-- What to test vs what to skip
-- Critical path testing
-- Edge case testing
--->
+```typescript
+import { mount } from '@vue/test-utils'
+import OrderCard from '@/components/OrderCard.vue'
 
-## Best Practices
+it('displays order info', () => {
+  const wrapper = mount(OrderCard, {
+    props: { order: mockOrder }
+  })
+  expect(wrapper.text()).toContain(mockOrder.customerName)
+})
+```
 
-<!-- Add rules for:
-- Test naming conventions
-- Arrange-Act-Assert pattern
-- Avoiding test interdependence
-- Test data factories
--->
+## Mocking  
+
+**Mock services**:
+
+```typescript
+vi.mock('@/services/orderService', () => ({
+  orderService: {
+    getOrders: vi.fn().mockResolvedValue([mockOrder])
+  }
+}))
+```
+
+## What to Test  
+
+**Priority**:
+1. Critical business logic
+2. Composables with complex logic
+3. Form validation
+4. Error handling
+
+**Skip**:
+- Trivial getters/setters
+- Third-party library internals
+- Pure UI components with no logic
+
+## Test Naming  
+
+```typescript
+describe('Component/Function name', () => {
+  it('does something when condition', () => {
+    // Test
+  })
+})
+```
+
+## E2E Testing  
+
+If using Playwright/Cypress:
+
+```typescript
+test('user can create order', async ({ page }) => {
+  await page.goto('/orders')
+  await page.click('[data-testid="create-order"]')
+  await page.fill('[name="customerName"]', 'John Doe')
+  await page.click('[type="submit"]')
+  await expect(page.locator('.success-message')).toBeVisible()
+})
+```

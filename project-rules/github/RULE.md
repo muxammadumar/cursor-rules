@@ -1,60 +1,97 @@
 ---
-description: Git workflow, commit messages, and PR conventions
+description: Git workflow and collaboration guidelines
 globs: ["**/*"]
 ---
 
 # GitHub Workflow Rules
 
-## Commit Messages
+## Core Principle
 
-<!-- Add rules for:
-- Commit message format (conventional commits)
-- Commit message length
-- What makes a good commit message
-- When to squash commits
--->
+**From your rules:**
+- Do not change folder structure without confirmation
+- Do not rename public APIs without confirmation  
+- Ask before large refactors
 
-## Branch Management
+## Commit Messages  
 
-<!-- Add rules for:
-- Branch naming conventions
-- Feature branch workflow
-- When to create a branch
-- Branch cleanup
--->
+**Format**: Use conventional commits
 
-## Pull Requests
+```
+feat: add order filtering by status
+fix: resolve date formatting issue
+refactor: extract order logic to composable
+docs: update API documentation
+chore: update dependencies
+```
 
-<!-- Add rules for:
-- PR title format
-- PR description template
-- When to create a PR
-- PR size guidelines
--->
+**Structure**:
+- Type: `feat`, `fix`, `refactor`, `docs`, `test`, `chore`
+- Scope (optional): `(orders)`, `(auth)`
+- Subject: Imperative, present tense
 
-## Code Review
+## Branch Management  
 
-<!-- Add rules for:
-- What to look for in reviews
-- How to give feedback
-- When to approve vs request changes
-- Handling review comments
--->
+**Naming convention**:
+```
+feature/order-filtering
+fix/date-formatting-bug
+refactor/extract-order-logic
+```
 
-## Merge Strategy
+**Workflow**:
+- Create branch from `dev`
+- Keep branches short-lived
+- Delete branch after merge
 
-<!-- Add rules for:
-- Merge vs squash vs rebase
-- Merge commit messages
-- Handling merge conflicts
-- Protected branch rules
--->
+## Pull Requests  
 
-## Issue Tracking
+**Title**: Same format as commits
 
-<!-- Add rules for:
-- Issue templates
-- Issue labeling
-- Linking issues to PRs
-- Closing issues
--->
+```
+feat: add order filtering by status
+```
+
+**Description template**:
+```markdown
+## What
+Brief description of changes
+
+## Why
+Reason for changes
+
+## Testing
+How to test the changes
+```
+
+## Code Review Guidelines  
+
+**What to review**:
+- Adherence to folder structure rules
+- No business logic in components
+- All API calls go through services
+- TypeScript types are complete
+- No `any` types used
+
+**Give constructive feedback**:
+- Explain why something should change
+- Suggest alternatives
+- Ask questions if unclear
+
+## Merge Strategy  
+
+- **Squash and merge** for feature branches
+- Keep commit history clean
+- Write clear merge commit message
+
+## Collaboration Rules
+
+**Before making changes**:
+- ✅ Confirm folder structure changes
+- ✅ Confirm API renames
+- ✅ Confirm large refactors
+
+**Safe without confirmation**:
+- Bug fixes
+- New features following existing patterns
+- Documentation updates
+- Test additions

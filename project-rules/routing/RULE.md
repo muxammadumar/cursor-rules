@@ -1,5 +1,5 @@
 ---
-description: Vue Router configuration and navigation patterns
+description: Vue Router configuration for admin panel
 globs: ["**/router/**/*", "**/views/**/*.vue"]
 ---
 
@@ -7,54 +7,107 @@ globs: ["**/router/**/*", "**/views/**/*.vue"]
 
 ## Route Configuration
 
-<!-- Add rules for:
-- Route definition structure
-- Route naming conventions
-- Route path patterns
-- Nested routes
--->
+**Structure**
 
-## Navigation Guards
+```typescript
+const routes: RouteRecordRaw[] = [
+  {
+    path: '/',
+    component: () => import('@/views/DashboardView.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/orders',
+    component: () => import('@/views/OrdersView.vue'),
+    meta: { requiresAuth: true, title: 'Orders' }
+  }
+]
+```
 
-<!-- Add rules for:
-- Global guards vs per-route guards
-- Authentication guards
-- Authorization checks
-- Navigation guard patterns
--->
+## Naming Conventions
 
-## Route Parameters
-
-<!-- Add rules for:
-- Path params vs query params
-- Param typing
-- Optional parameters
-- Route param validation
--->
+- **Paths**: kebab-case (`/order-details/:id`)
+- **Route names**: camelCase (`orderDetails`)
+- **View components**: PascalCase with View suffix (`OrderDetailsView.vue`)
 
 ## Lazy Loading
 
-<!-- Add rules for:
-- Code splitting by route
-- Chunk naming
-- Preloading strategies
-- Loading components
--->
+**Always lazy load route components**
 
-## Navigation
+```typescript
+// Good: Lazy loaded
+component: () => import('@/views/OrdersView.vue')
 
-<!-- Add rules for:
-- Programmatic navigation
-- router.push vs router.replace
-- Navigation error handling
-- Back button handling
--->
+// Bad: Eager loaded
+import OrdersView from '@/views/OrdersView.vue'
+component: OrdersView
+```
+
+## Navigation Guards
+
+**Authentication guard  **
+
+```typescript
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore()
+  
+  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+    next('/login')
+  } else {
+    next()
+  }
+})
+```
 
 ## Meta Fields
 
-<!-- Add rules for:
-- Route meta information
-- Page titles
-- Breadcrumbs
-- Access control metadata
--->
+Use route meta for:
+- `requiresAuth: boolean` - Auth requirement
+- `title: string` - Page title
+- `roles: string[]` - Required roles
+- `layout: string` - Layout component
+
+## Route Parameters
+
+**Path params for resources**
+
+```typescript
+'/orders/:id'  // Resource ID
+'/users/:userId/orders'  // Nested resource
+```
+
+**Query params for filters**
+
+```typescript
+'/orders?status=pending&page=2'  // Filters and pagination
+```
+
+## Programmatic Navigation
+
+```typescript
+// Navigate to new page
+router.push({ name: 'orderDetails', params: { id: '123' } })
+
+// Replace current entry
+router.replace('/login')
+
+// Go back
+router.back()
+```
+
+## View Components
+
+**Views are route-level components**
+- Located in `views/` folder
+- Minimal logic, mostly composition
+- Orchestrate components and composables
+- Handle route params
+
+```vue
+<script setup lang="ts">
+const route = useRoute()
+const orderId = computed(() => route.params.id as string)
+
+const { order, loading } = useOrder(orderId)
+</script>
+```

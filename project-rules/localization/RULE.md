@@ -1,42 +1,67 @@
 ---
-description: Rules for internationalization (i18n) and localization in Vue 3 applications
+description: Internationalization setup (if needed for admin panel)
 globs: ["**/*.vue", "**/i18n/**/*", "**/locales/**/*"]
 ---
 
 # Localization & i18n Rules
 
-## Translation Key Management
+> **Note**: This section is added as a template. Remove if your admin panel doesn't require multi-language support.
 
-<!-- Add rules for:
-- Translation key naming conventions
-- Where to store translation files
-- How to organize keys (flat vs nested)
-- Missing translation handling
--->
+## Setup  
 
-## Vue i18n Integration
+If i18n is needed:
 
-<!-- Add rules for:
-- How to use $t() in templates
-- How to use useI18n() in script setup
-- Pluralization patterns
-- Date/number formatting
--->
+```typescript
+// i18n/index.ts
+import { createI18n } from 'vue-i18n'
+import en from './locales/en.json'
+import ar from './locales/ar.json'
 
-## Language Switching
+export const i18n = createI18n({
+  legacy: false,
+  locale: 'en',
+  fallbackLocale: 'en',
+  messages: { en, ar }
+})
+```
 
-<!-- Add rules for:
-- How to implement language switcher
-- Where to store current locale state
-- Persisting language preference
-- RTL language support
--->
+## Usage in Components  
 
-## Best Practices
+```vue
+<script setup lang="ts">
+const { t } = useI18n()
+</script>
 
-<!-- Add rules for:
-- Avoiding hardcoded strings
-- Dynamic translation keys
-- Fallback language handling
-- Translation file structure
--->
+<template>
+  <h1>{{ t('orders.title') }}</h1>
+  <p>{{ t('orders.count', { count: orders.length }) }}</p>
+</template>
+```
+
+## Translation Keys  
+
+**Structure**:
+
+```json
+{
+  "orders": {
+    "title": "Orders",
+    "create": "Create Order",
+    "status": {
+      "pending": "Pending",
+      "completed": "Completed"
+    }
+  }
+}
+```
+
+**Naming**: Use dot notation, organize by domain
+
+## Best Practices  
+
+- Avoid hardcoded strings in templates
+- Use translation keys for all user-facing text
+- Store locale preference in localStorage
+- Provide language switcher in UI if multi-language is needed
+
+**If your admin panel is English-only, remove this entire folder.**
